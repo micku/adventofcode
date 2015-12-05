@@ -27,14 +27,5 @@ def run(file):
                     houses.append(position)
 
 
-def get_bow_size(size):
-    return functools.reduce(operator.mul, size, 1)
-
-def get_wrap_size(size):
-    smallest_sides = list(size)
-    smallest_sides.remove(max(size))
-    return sum(smallest_sides) * 2
-
-
 if __name__ == '__main__':
     run()
