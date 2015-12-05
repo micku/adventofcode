@@ -7,7 +7,7 @@ import hashlib
 @click.option('--key', default='ckczppom', help='Input key')
 def run(key):
     position = 1
-    while md5(key+str(position)).startswith('0'*5) == False:
+    while md5(key+str(position)).startswith('0'*6) == False:
         position += 1
     click.echo('Code is {}'.format(str(position)))
 
