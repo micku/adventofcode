@@ -8,30 +8,23 @@ def run(file):
     nice_strings = 0
     with click.open_file(file) as strings:
         for row in strings:
-            if has_doubles(row) \
-                and enough_vowels(row) \
-                and not poor_strings(row):
+            if has_repeats(row) \
+                and enough_double_doubles(row):
                 nice_strings += 1
     click.echo('Found {} nice strings'.format(nice_strings))
 
 
-def has_doubles(string):
-    for i in xrange(len(string)-1):
-        if string[i] == string[i+1]:
+def has_repeats(string):
+    for i in xrange(len(string)-2):
+        if string[i] == string[i+2]:
             return True
     return False
 
 
-def enough_vowels(string):
-    total_vowels = 0
-    for vowel in 'aeiou':
-        total_vowels += string.count(vowel)
-    return total_vowels >= 3
-
-
-def poor_strings(string):
-    for s in ['ab', 'cd', 'pq', 'xy']:
-        if s in string:
+def enough_double_doubles(string):
+    for i in xrange(len(string)-3):
+        double = string[i:i+2]
+        if double in string.replace(double, ' ', 1):
             return True
     return False
 
