@@ -60,6 +60,9 @@ def run(file):
                     op.append(op_data)
 
 
+    op2 = op[:]
+    wires2 = wires.copy()
+
     tot = 0
     while len(op) > 0:
         for instruction in op[:]:
@@ -72,6 +75,23 @@ def run(file):
 
     click.echo('Evaluated {} instructions'.format(tot))
     click.echo('Wire "a" is {}'.format(wires['a']))
+
+    wires2['b'] = wires['a']
+    tot2 = 0
+    while len(op2) > 0:
+        for instruction in op2[:]:
+            operands = instruction['operands']
+            var_operands = [operand for operand in instruction['operands'] if not operand.isdigit()]
+            if len(set(var_operands) & set(wires2.keys())) == len(var_operands):
+                tot2 += 1
+                wires2[instruction['result']] = eval(instruction['instruction'].replace('wires', 'wires2'))
+                op2.remove(instruction)
+
+    click.echo('')
+    click.echo('Step 2:')
+
+    click.echo('Evaluated {} instructions'.format(tot2))
+    click.echo('Wire "a" is {}'.format(wires2['a']))
 
 
 if __name__ == '__main__':
