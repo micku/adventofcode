@@ -7,7 +7,7 @@ import collections
 
 @click.command()
 @click.option('--value', default='1113222113', help='Input file path')
-@click.option('--iterations', default='40', help='Input file path')
+@click.option('--iterations', default='50', help='Input file path')
 def run(value, iterations):
     iterations = int(iterations)
     for i in range(iterations):
