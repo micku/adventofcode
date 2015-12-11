@@ -9,13 +9,19 @@ import string
 @click.option('--value', default='vzbxkghb', help='Input file path')
 def run(value):
     dictionary = re.sub(r'(i|o|l)', '', string.ascii_lowercase)
+    pwd1 = ''
     for val in next_values(value):
-        if val == 'ghjaabcc':
-            return
         if is_valid(val):
-            click.echo('Next password is {}'.format(val))
+            pwd1 = val
             break
 
+    click.echo('Next password is {}'.format(pwd1))
+    pwd2 = ''
+    for val in next_values(pwd1):
+        if is_valid(val):
+            pwd2 = val
+            break
+    click.echo('Next, next password is {}'.format(pwd2))
 
 invalid_chars_re = re.compile(r'(i|o|l)')
 double_chars_re = re.compile(r'(.)\1.*(.)\2')
