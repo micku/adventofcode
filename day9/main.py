@@ -43,6 +43,7 @@ def run(file):
 
 
     click.echo('Shortest distance is {}'.format(min(route_distances)))
+    click.echo('Longest distance is {}'.format(max(route_distances)))
 
 
 if __name__ == '__main__':
