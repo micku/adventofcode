@@ -17,6 +17,11 @@ def run(file):
                 happiness[data.group(1)] = {}
             happiness[data.group(1)][data.group(4)] = int(
                     ('' if data.group(2) == 'gain' else '-') + data.group(3))
+    me = {}
+    for per in happiness.keys():
+        happiness[per]['me'] = 0
+        me[per] = 0
+    happiness['me'] = me
 
     tots = []
     for p in itertools.permutations(happiness.keys()):
@@ -24,7 +29,7 @@ def run(file):
         tot = sum([happiness[l[i]][l[i-1]] + happiness[l[i]][l[(i+1)%len(l)]] for i, k in enumerate(l)])
         tots.append(tot)
 
-    click.echo('Part 1 Total is {}'.format(max(tots)))
+    click.echo('Part 2 Total is {}'.format(max(tots)))
 
 if __name__ == '__main__':
     run()
