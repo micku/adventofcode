@@ -35,6 +35,8 @@ def run(file):
     }
     real_sue = 0
     real_sue_score = 0
+    real_sue2 = 0
+    real_sue_score2 = 0
     with click.open_file(file) as strings:
         for row in strings:
             data = re.match(row_re, row.rstrip())
@@ -43,12 +45,27 @@ def run(file):
             compounds = [x.split(': ') for x in data.group(2).split(', ')]
 
             score = len([x for x in compounds if x[1] == package_compounds[x[0]]])
+            score2 = len([x for x in compounds if mfcsam(x, package_compounds[x[0]])])
             
             if score > real_sue_score:
                 real_sue_score = score
                 real_sue = sue_n
+            
+            if score2 > real_sue_score2:
+                real_sue_score2 = score2
+                real_sue2 = sue_n
 
-    click.echo('Part 1 Total is {}'.format(real_sue))
+    click.echo('Part 1 Sue is {}'.format(real_sue))
+    click.echo('Part 2 Sue is {}'.format(real_sue2))
+
+
+def mfcsam(x, y):
+    if x[0] in ['cats', 'trees']:
+        return x[1] > y
+    if x[0] in ['pomeranians', 'goldfish']:
+        return x[1] < y
+    else:
+        return x[1] == y
 
 if __name__ == '__main__':
     run()
