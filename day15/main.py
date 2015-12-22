@@ -19,9 +19,10 @@ def run(file):
                 int(data.group(3)),
                 int(data.group(4)),
                 int(data.group(5)),
-                #data.group(6),
+                int(data.group(6)),
             ])
     tot = 0
+    tot2 = 0
     for e in loop(1, ingredients, []):
         #for prop in zip(*ingredients):
         temp_tots = []
@@ -30,10 +31,13 @@ def run(file):
             temp_tots.append(ing_tots)
         prop_tots = map(lambda x: sum(list(x)), zip(*temp_tots))
         if min(prop_tots) > 0:
-            temp_tot = reduce(lambda k, z: k*z, prop_tots)
+            temp_tot = reduce(lambda k, z: k*z, prop_tots[:-1])
             tot = max([tot, temp_tot])
+            if prop_tots[4] == 500:
+                tot2 = max([tot2, temp_tot])
 
     click.echo('Part 1 Total is {}'.format(tot))
+    click.echo('Part 2 Total is {}'.format(tot2))
 
 def loop(start, ing, tots):
     if len(ing) == 1:
