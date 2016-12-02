@@ -8,20 +8,27 @@ from main import run
 
 class TestAll(unittest.TestCase):
     def test_part1(self):
-        runner = CliRunner()
-
         tests = [
             ('R2, L3', '5'),
             ('R2, R2, R2', '2'),
             ('R5, L5, R5, R3', '12'),
         ]
+        self.generic(1, tests)
 
+    def test_part2(self):
+        tests = [
+            ('R8, R4, R4, R8', '4'),
+        ]
+        self.generic(2, tests)
+
+    def generic(self, part, tests):
+        runner = CliRunner()
         with runner.isolated_filesystem():
             for tst in tests:
                 with open('test', 'w') as f:
                     f.write(tst[0])
 
-                result = runner.invoke(run, ['1', 'test'])
+                result = runner.invoke(run, [str(part), 'test'])
                 self.assertEqual(0, result.exit_code)
                 self.assertEqual('{}\n'.format(tst[1]), result.output)
 
