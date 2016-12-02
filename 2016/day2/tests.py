@@ -15,7 +15,7 @@ class TestAll(unittest.TestCase):
 
     def test_part2(self):
         tests = [
-            ('', ''),
+            ('ULL\nRRDDD\nLURDL\nUUUUD', '5DB3'),
         ]
         self.generic(2, tests)
 
