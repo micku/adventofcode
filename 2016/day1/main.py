@@ -3,10 +3,12 @@
 import click
 
 @click.command()
+@click.argument('part',
+        default='1')
 @click.argument('f',
         type=click.File(),
         default='input.txt')
-def run(f):
+def run(part, f):
     directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 
     direction = 0

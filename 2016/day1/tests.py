@@ -7,7 +7,7 @@ from click.testing import CliRunner
 from main import run
 
 class TestAll(unittest.TestCase):
-    def test_all(self):
+    def test_part1(self):
         runner = CliRunner()
 
         tests = [
@@ -21,7 +21,7 @@ class TestAll(unittest.TestCase):
                 with open('test', 'w') as f:
                     f.write(tst[0])
 
-                result = runner.invoke(run, ['test'])
+                result = runner.invoke(run, ['1', 'test'])
                 self.assertEqual(0, result.exit_code)
                 self.assertEqual('{}\n'.format(tst[1]), result.output)
 
