@@ -18,11 +18,13 @@ class TestAll(unittest.TestCase):
         ]
         self.generic(1, tests)
 
+    """
     def test_part2(self):
         tests = [
             ('', ''),
         ]
         self.generic(2, tests)
+    """
 
     def generic(self, part, tests):
         runner = CliRunner()
