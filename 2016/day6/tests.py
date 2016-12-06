@@ -30,7 +30,22 @@ class TestAll(unittest.TestCase):
 
     def test_part2(self):
         tests = [
-            ('', ''),
+            ('eedadn\n' +
+                'drvtee\n' +
+                'eandsr\n' +
+                'raavrd\n' +
+                'atevrs\n' +
+                'tsrnev\n' +
+                'sdttsa\n' +
+                'rasrtv\n' +
+                'nssdts\n' +
+                'ntnada\n' +
+                'svetve\n' +
+                'tesnvt\n' +
+                'vntsnd\n' +
+                'vrdear\n' +
+                'dvrsen\n' +
+                'enarar', 'advent'),
         ]
         self.generic(2, tests)
 
