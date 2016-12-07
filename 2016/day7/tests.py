@@ -18,7 +18,10 @@ class TestAll(unittest.TestCase):
 
     def test_part2(self):
         tests = [
-            ('', '0'),
+            ('aba[bab]xyz', '1'),
+            ('xyx[xyx]xyx', '0'),
+            ('aaa[kek]eke', '1'),
+            ('zazbz[bzb]cdb', '1'),
         ]
         self.generic(2, tests)
 

@@ -11,15 +11,17 @@ import itertools
         type=click.File(),
         default='input.txt')
 def run(part, f):
-    tls_pwds = 0
+    ips = 0
     if part == '1':
-        for pwd in f:
-            tls_pwds += 1 if support_tls(pwd.strip()) else 0
+        for ip in f:
+            ips += 1 if support_tls(ip.strip()) else 0
 
     if part == '2':
-        pass
+        for ip in f:
+            ip = ip.strip()
+            ips += 1 if support_ssl(ip) else 0
 
-    click.echo(tls_pwds)
+    click.echo(ips)
 
 
 r = re.compile('(\[?[a-z]+\]?)')
@@ -41,6 +43,20 @@ def is_abba(s):
         if s[i] == s[i-3] and s[i-1] == s[i-2] and s[i] != s[i-1]:
             return True
     return False
+
+
+def support_ssl(ip):
+    parts = r.findall(ip)
+    for aba in find_aba([p for p in parts if not p.startswith('[')]):
+        if '{}{}{}'.format(aba[1], aba[0], aba[1]) in find_aba([p[1:-1] for p in parts if p.startswith('[')]):
+            return True
+
+
+def find_aba(a):
+    for s in a:
+        for i in xrange(2, len(s)):
+            if s[i] == s[i-2] and s[i] != s[i-1]:
+                yield s[i-2:i+1]
 
 
 
