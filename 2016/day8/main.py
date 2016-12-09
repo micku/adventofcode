@@ -46,7 +46,7 @@ def run(part, f):
 
     click.echo(sum([l.count(True) for l in screen]))
     for x in screen:
-        print ''.join(['#' if e else '.' for e in x])
+        print ''.join(['#' if e else ' ' for e in x])
 
 
 if __name__ == '__main__':
