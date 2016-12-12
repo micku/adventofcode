@@ -11,60 +11,68 @@ import string
         type=click.File(),
         default='input.txt')
 def run(part, f):
-    out = ''
-    if part == '1':
-        length = '0'
-        repetitions = '0'
-        text = ''
-        counter = 0
+    out = expand(f.read(), part)
 
-        repeting = False
-        marker = False
-        markerx = False
+    click.echo(out)
 
-        for c in f.read():
-            if not marker and not markerx and int(length) == 1:
-                length = '0'
-                text += c
 
-                out += text * int(repetitions)
-                text = ''
-                repetitions = '0'
+def expand(s, part):
+    ret = 0
 
-                continue
+    length = '0'
+    repetitions = '0'
+    text = ''
+    counter = 0
 
-            if not marker and not markerx and int(length) > 1:
-                length = str(int(length)-1)
-                text += c
-                continue
+    repeting = False
+    marker = False
+    markerx = False
 
-            if not marker and not markerx and c == '(' and int(length) == 0:
-                marker = True
-                continue
+    for c in s:
+        if not marker and not markerx and int(length) == 1:
+            length = '0'
+            text += c
 
-            if marker and not markerx and c in string.digits:
-                length += c
-                continue
 
-            if marker and not markerx and c == 'x':
-                markerx = True
-                continue
+            if part == '1':
+                ret += len(text) * int(repetitions)
 
-            if marker and markerx and c in string.digits:
-                repetitions += c
-                continue
+            if part == '2':
+                ret += expand(text, part) * int(repetitions)
+            text = ''
+            repetitions = '0'
 
-            if marker and markerx and c == ')':
-                marker = False
-                markerx = False
-                continue
+            continue
 
-            out += c
+        if not marker and not markerx and int(length) > 1:
+            length = str(int(length)-1)
+            text += c
+            continue
 
-    if part == '2':
-        pass
+        if not marker and not markerx and c == '(' and int(length) == 0:
+            marker = True
+            continue
 
-    click.echo(len(out.strip()))
+        if marker and not markerx and c in string.digits:
+            length += c
+            continue
+
+        if marker and not markerx and c == 'x':
+            markerx = True
+            continue
+
+        if marker and markerx and c in string.digits:
+            repetitions += c
+            continue
+
+        if marker and markerx and c == ')':
+            marker = False
+            markerx = False
+            continue
+
+        ret += len(c.strip())
+    return ret
+
 
 
 if __name__ == '__main__':
