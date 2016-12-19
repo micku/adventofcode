@@ -59,15 +59,17 @@ def run(part, f):
     }
 
     if part == '1':
-        while cnt < len(instructions):
-            parsed = list(parser.search(instructions[cnt]).groups())
-
-            cnt += (definitions[parsed[0]])(*parsed[1:])
-            
-        click.echo(registers['a'])
+        pass
 
     if part == '2':
-        click.echo()
+        registers['c'] = 1
+
+    while cnt < len(instructions):
+        parsed = list(parser.search(instructions[cnt]).groups())
+
+        cnt += (definitions[parsed[0]])(*parsed[1:])
+        
+    click.echo(registers['a'])
 
 
 
