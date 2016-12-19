@@ -35,17 +35,14 @@ def run(part, f):
         return 1
 
     def inc(reg, *args):
-        pre = registers[reg]
         registers[reg] += 1
         return 1
 
     def dec(reg, *args):
-        pre = registers[reg]
         registers[reg] -= 1
         return 1
 
     def jnz(reg, step):
-
         ret = get_val(step) \
                 if get_val(reg) is not None and get_val(reg) > 0 \
                 else 1
