@@ -25,23 +25,31 @@ def run(part, f):
     def move(position, target, steps):
         steps.append(position)
         for direction in [x for x in around(*position) if x not in steps]:
-            if target == direction:
-                yield len(steps) 
-            else:
-                for ln in move(direction, target, steps[:]):
-                    yield ln
+            if part == '1':
+                if target == direction:
+                    yield steps 
+                else:
+                    for ln in move(direction, target, steps[:]):
+                        yield ln
+            if part == '2':
+                if len(steps) == 51:
+                    yield steps
+                elif len(steps) < 51:
+                    for ln in move(direction, target, steps[:]):
+                        yield ln
+        else:
+            yield steps
 
+    starting_point = (1, 1)
+    finish_point = (31, 39)
+    steps = []
     if part == '1':
-        starting_point = (1, 1)
-        finish_point = (31, 39)
-        steps = []
-        
-        shortest_path = min([x for x in move(starting_point, finish_point, steps)])
+        shortest_path = min([len(x) for x in move(starting_point, finish_point, steps)])
+        click.echo(shortest_path)
 
     if part == '2':
-        pass
-
-    click.echo(shortest_path)
+        paths = [x for x in move(starting_point, finish_point, steps)]
+        click.echo(len(set(itertools.chain.from_iterable(paths))) )
 
 
 if __name__ == '__main__':
