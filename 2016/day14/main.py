@@ -14,39 +14,40 @@ from collections import deque
 def run(part, f):
     keys = []
     salt = f.read().strip()
-    idx = 0
+    idx = -1
     future_keys = deque([])
 
-    is_triplete = re.compile(r'(.)\1\1')
+    is_triplet = re.compile(r'(.)\1\1')
     def calc_key(i):
-        return hashlib.md5('{}{}'.format(salt, str(i)).encode('utf-8')).hexdigest()
+        hashed = hashlib.md5('{}{}'.format(salt, str(i)).encode('utf-8')).hexdigest()
+        if part == '2':
+            for _ in range(2016):
+                hashed = hashlib.md5(hashed.encode('utf-8')).hexdigest()
+        return hashed
 
-    if part == '1':
-        while len(keys) < 64:
-            maybe_key = calc_key(idx) \
-                if len(future_keys) == 0 \
-                else future_keys.popleft()
+    while len(keys) < 64:
+        idx += 1
 
-            triplete = is_triplete.findall(maybe_key)
-            if len(triplete) > 0:
-                pattern = triplete[0]
-                for quint_idx in range(1, 1000):
-                    if len(future_keys) >= quint_idx:
-                        new_key = future_keys[quint_idx-1]
-                    else:
-                        new_key = calc_key(idx + quint_idx)
-                        future_keys.append(new_key)
-                    if pattern*5 in new_key:
-                        keys.append({'idx': idx, 'key': maybe_key})
-                        continue
-            idx += 1
+        maybe_key = calc_key(idx) \
+            if len(future_keys) == 0 \
+            else future_keys.popleft()['key']
 
-        click.echo(idx-1)
+        triplet = is_triplet.findall(maybe_key)
+        if len(triplet) > 0:
+            pattern = triplet[0]
+            for quint_idx in range(1, 1001):
+                if len(future_keys) >= quint_idx:
+                    new_key = future_keys[quint_idx-1]['key']
+                else:
+                    new_key = calc_key(idx + quint_idx)
+                    future_keys.append({'idx': idx + quint_idx, 'key': new_key})
+                if pattern*5 in new_key:
+                    keys.append({'idx': idx, 'key': maybe_key})
+                    break
 
+    click.echo(keys[-1]['idx'])
 
-    if part == '2':
-        click.echo()
-
+# wrong: 20141
 
 if __name__ == '__main__':
     run()
