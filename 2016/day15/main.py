@@ -20,13 +20,12 @@ def run(part, f):
     def calc_pos(disc, i):
         return (disc['position'] +disc['id'] + i) % disc['size']
 
-    idx = 0
-    if part == '1':
-        while not all([calc_pos(x, idx)==0 for x in discs]):
-            idx += 1
-
     if part == '2':
-        pass
+        discs.append({'id': discs[-1]['id']+1, 'size': 11, 'position': 0})
+
+    idx = 0
+    while not all([calc_pos(x, idx)==0 for x in discs]):
+        idx += 1
 
     click.echo(idx)
 
