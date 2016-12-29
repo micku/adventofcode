@@ -53,12 +53,17 @@ def run(part, f):
             instructions[i][0] =  repl[instructions[i][0]]
         return 1
 
+    def mul(one, two, dest, *args):
+        registers[dest] += get_val(one) * get_val(two)
+        return 1
+
     definitions = {
         'cpy': cpy,
         'inc': inc,
         'dec': dec,
         'jnz': jnz,
         'tgl': tgl,
+        'mul': mul,
     }
 
     repl = {
@@ -73,7 +78,15 @@ def run(part, f):
         registers['a'] = 7
 
     if part == '2':
-        pass
+        registers['a'] = 12
+
+        instructions[4] = ['mul', 'b', 'd', 'a']
+        instructions[5] = ['cpy', '0', 'c']
+        instructions[6] = ['cpy', '0', 'c']
+        instructions[7] = ['cpy', '0', 'd']
+        instructions[8] = ['cpy', '0', 'd']
+        instructions[9] = ['cpy', '0', 'd']
+
 
 
     while cnt < len(instructions):
