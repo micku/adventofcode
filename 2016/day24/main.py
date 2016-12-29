@@ -14,8 +14,8 @@ import functools
         type=click.File(),
         default='input.txt')
 def run(part, f):
-    free = []
-    checkpoints = []
+    free = set()
+    checkpoints = set()
     start = None
 
     ln = 0
@@ -25,12 +25,12 @@ def run(part, f):
             coord = (cn, ln)
             if c == '0':
                 start = coord
-                free.append(coord)
+                free.add(coord)
             elif c in string.digits[1:]:
-                checkpoints.append(coord)
-                free.append(coord)
+                checkpoints.add(coord)
+                free.add(coord)
             elif c == '.':
-                free.append(coord)
+                free.add(coord)
             cn += 1
         ln += 1
 
@@ -48,31 +48,28 @@ def run(part, f):
         if (start, checkpoint) in memo.keys():
             return memo[(start, checkpoint)]
         q = deque()
-        q.append({
-            'pos': start,
-            'distance': 0,
-            'parent': None
-        })
-        visited = [start]
+        q.append((
+            start,
+            0,
+            ))
+        visited = set(start)
 
         while q:
             current = q.popleft()
-            if current['pos'] == checkpoint:
-                memo[(start, checkpoint)] = (current['distance'], current['pos'])
-                return (current['distance'], current['pos'])
+            if current[0] == checkpoint:
+                memo[(start, checkpoint)] = (current[1], current[0])
+                return (current[1], current[0])
 
-            for n in [x for x in around(*current['pos']) \
+            for n in [x for x in around(*current[0]) \
                     if x not in visited]:
-                visited.append(n)
-                new_point = {
-                    'pos': n,
-                    'distance': current['distance'] + 1,
-                    'parent': current
-                }
+                visited.add(n)
+                new_point = (
+                        n,
+                        current[1] + 1,
+                        )
                 q.append(new_point)
 
 
-    distances = []
     record = sys.maxsize
     if part == '1':
         for path in itertools.permutations(checkpoints):
@@ -86,7 +83,6 @@ def run(part, f):
                 current = point
                 if l >= record:
                     break
-            distances.append(l)
             record = min([record, l])
 
 
@@ -103,7 +99,6 @@ def run(part, f):
                 current = point
                 if l >= record:
                     break
-            distances.append(l)
             record = min([record, l])
 
     click.echo(record)
