@@ -91,7 +91,20 @@ def run(part, f):
 
 
     if part == '2':
-        pass
+        for path in itertools.permutations(checkpoints):
+            current = start
+            q = deque(path)
+            q.append(start)
+            l = 0
+            while q:
+                c = q.popleft()
+                distance, point = search_checkpoint(current, c)
+                l += distance
+                current = point
+                if l >= record:
+                    break
+            distances.append(l)
+            record = min([record, l])
 
     click.echo(record)
 
