@@ -28,12 +28,13 @@ def calc_checksum(data):
 def run(f):
     i = f.read().strip()
 
-    disk_len = 272
+    disk_len = [272, 35651584]
 
-    disk_data = generate_data(i, disk_len)
-    checksum = calc_checksum(disk_data[:disk_len])
+    for idx, l in enumerate(disk_len):
+        disk_data = generate_data(i, l)
+        checksum = calc_checksum(disk_data[:l])
 
-    click.echo(checksum)
+        click.echo('Part {}: {}'.format(idx+1, checksum))
 
 
 if __name__ == '__main__':
