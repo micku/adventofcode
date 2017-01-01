@@ -46,17 +46,20 @@ def run(f):
     q = deque()
     q.append(start)
 
+    all_paths = set([])
+
     while q:
         current = q.popleft()
 
         if current[1] == end_coord:
-            click.echo('Day 1: {}'.format(current[0]))
-            return
+            all_paths.add(current[0])
+            continue
 
         for direction in get_directions(passcode, current, directions):
             q.append((current[0]+direction[0], direction[1]))
 
-    click.echo(calc_doors_state(passcode))
+    click.echo('Day 1: {}'.format(min(all_paths, key=lambda x:len(x))))
+    click.echo('Day 2: {}'.format(len(max(all_paths, key=lambda x:len(x)))))
 
 
 if __name__ == '__main__':
