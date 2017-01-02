@@ -23,7 +23,7 @@ def run(f):
     
     prev = r
     click.echo(r)
-    for i in range(39):
+    for i in range(399999):
         row = ''
         for i in range(len(prev)):
             row += tile_type(
@@ -31,7 +31,8 @@ def run(f):
                 )
         safe_count += row.count('.')
         prev = row
-        click.echo(row)
+        # Do not print 40k rows...
+        # click.echo(row)
 
     click.echo()
     click.echo(safe_count)
