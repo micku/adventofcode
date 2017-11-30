@@ -1,10 +1,15 @@
 #! /usr/bin/env python
+"""Script that creates a new problem folder starting
+from the problem's URL"""
 
 import argparse
 import os
+import shutil
+import stat
+
 import requests
 import tomd
-import shutil
+
 from bs4 import BeautifulSoup
 
 parser = argparse.ArgumentParser(description='Creates a new AoC folder.')
@@ -14,18 +19,18 @@ args = parser.parse_args()
 
 url = args.url
 session = args.session
-cookies = dict(session = session)
+cookies = dict(session=session)
 
 url_parts = url.split('/')
 year = url_parts[-3]
 day = url_parts[-1]
 
 response = requests.get(
-        url,
-        cookies = cookies)
+    url,
+    cookies=cookies)
 if response.status_code != 200:
     print("Oops... Something does not work :( " \
-            "the request failed with status {}".format(response.status_code))
+        "the request failed with status {}".format(response.status_code))
     quit()
 
 # Setup folder structure
@@ -50,11 +55,11 @@ with open(readme_file_path, "w") as readme:
         readme.write(tomd.Tomd(str(day)).markdown)
         print(" Problem text added")
 
-        next = day.next_sibling.next_sibling
-        if next.name == 'p' \
-                and next.text[:4] == 'Your':
+        next_sibling = day.next_sibling.next_sibling
+        if next_sibling.name == 'p' \
+                and next_sibling.text[:4] == 'Your':
             print(" Found solution to part {}! Good work!".format(part))
-            readme.write("\n{}\n".format(next.text))
+            readme.write("\n{}\n".format(next_sibling.text))
 
 # Download the problem input, if exists
 file_url = '{}/input'.format(url)
@@ -67,7 +72,7 @@ if file_response.status_code == 200:
 
 # Create the boilerplate
 for boilerplate_file in os.listdir(boilerplate_folder):
-    source_file = os.path.join(boilerplate_folder, boilerplate_file) 
-    dest_file = os.path.join(problem_folder, boilerplate_file) 
+    source_file = os.path.join(boilerplate_folder, boilerplate_file)
+    dest_file = os.path.join(problem_folder, boilerplate_file)
     if not os.path.exists(dest_file):
         shutil.copyfile(source_file, dest_file)
