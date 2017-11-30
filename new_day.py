@@ -70,9 +70,14 @@ if file_response.status_code == 200:
         _input.write(file_response.text)
         print('Input file downloaded!')
 
-# Create the boilerplate
+# Clone the boilerplate
 for boilerplate_file in os.listdir(boilerplate_folder):
     source_file = os.path.join(boilerplate_folder, boilerplate_file)
     dest_file = os.path.join(problem_folder, boilerplate_file)
     if not os.path.exists(dest_file):
         shutil.copyfile(source_file, dest_file)
+
+    _, file_extension = os.path.splitext(dest_file)
+    if file_extension == '.py':
+        st = os.stat(dest_file)
+        os.chmod(dest_file, st.st_mode | stat.S_IEXEC)
