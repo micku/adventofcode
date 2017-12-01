@@ -22,7 +22,9 @@ For example:
 
 **What is the solution** to your captcha?
 
-Your puzzle answer was 1069.
+<details><summary>Spoiler alert!</summary>
+
+<p>Your puzzle answer was 1069.</p></details>
 
 ## --- Part Two ---
 
@@ -40,4 +42,6 @@ For example:
 
 **What is the solution** to your new captcha?
 
-Your puzzle answer was 1268.
+<details><summary>Spoiler alert!</summary>
+
+<p>Your puzzle answer was 1268.</p></details>
