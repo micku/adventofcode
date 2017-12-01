@@ -59,7 +59,8 @@ with open(readme_file_path, "w") as readme:
         if next_sibling.name == 'p' \
                 and next_sibling.text[:4] == 'Your':
             print(" Found solution to part {}! Good work!".format(part))
-            readme.write("\n{}\n".format(next_sibling.text))
+            readme.write("\n<details><summary>Spoiler alert!</summary>\n\n"
+                         "<p>{}</p></details>\n".format(next_sibling.text))
 
 # Download the problem input, if exists
 file_url = '{}/input'.format(url)
