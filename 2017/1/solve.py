@@ -13,7 +13,7 @@ def part1(_input):
 def part2(_input):
     """Part 2 solution implementation"""
 
-    return None
+    return sum([int(x) for i, x in enumerate(_input) if x == _input[(i + int(len(_input)/2)) % len(_input)]])
 
 
 if __name__ == '__main__':
