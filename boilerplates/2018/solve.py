@@ -22,5 +22,11 @@ if __name__ == '__main__':
         'input')
     _input = open(input_path, 'r').read().strip()
 
-    print('Part 1 solution: {}'.format(part1(_input) or 'not solved :('))
-    print('Part 2 solution: {}'.format(part2(_input) or 'nope.'))
+    part1_solution = part1(_input)
+    print('Part 1 solution: {}'.format(
+        part1_solution if part1_solution is not None else 'nope.')
+    )
+    part2_solution = part2(_input)
+    print('Part 2 solution: {}'.format(
+        part2_solution if part2_solution is not None else 'nope.')
+    )
