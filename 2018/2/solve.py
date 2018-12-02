@@ -18,8 +18,13 @@ def part1(_input):
 
 def part2(_input):
     """Part 2 solution implementation"""
+    import itertools
 
-    return None
+    for combo in itertools.combinations(_input.split(), 2):
+        diff = [int(combo[0][c] != combo[1][c]) for c in range(len(combo[0]))]
+        if sum(diff) == 1:
+            return ''.join([combo[0][i] for i, v in enumerate(diff) if v == 0])
+
 
 
 if __name__ == '__main__':
