@@ -13,7 +13,18 @@ def part1(_input):
 def part2(_input):
     """Part 2 solution implementation"""
 
-    return None
+    i = 0
+    values = _input.split()
+
+    current_frequency = 0
+    found_frequencies = set()
+
+    while(current_frequency not in found_frequencies):
+        found_frequencies.add(current_frequency)
+        current_frequency += int(values[i % len(values)])
+        i += 1
+
+    return current_frequency
 
 
 if __name__ == '__main__':
@@ -23,4 +34,7 @@ if __name__ == '__main__':
     _input = open(input_path, 'r').read().strip()
 
     print('Part 1 solution: {}'.format(part1(_input) or 'not solved :('))
-    print('Part 2 solution: {}'.format(part2(_input) or 'nope.'))
+    part2_solution = part2(_input)
+    print('Part 2 solution: {}'.format(
+        part2_solution if part2_solution is not None else 'nope.')
+    )
