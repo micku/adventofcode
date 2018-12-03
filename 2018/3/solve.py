@@ -29,7 +29,29 @@ def part1(_input):
 def part2(_input):
     """Part 2 solution implementation"""
 
-    return None
+    import re
+
+    r = re.compile("#([0-9]+) @ ([0-9]+),([0-9]+): ([0-9]+)x([0-9]+)")
+
+    overlapped_ids = set()
+    fabric = dict()
+    fabric_ids = set()
+
+    for claim in _input.split("\n"):
+        id, offset_left, offset_top, width, height = (
+            int(x) for x in r.match(claim).groups()
+        )
+
+        for w in range(width):
+            for h in range(height):
+                square = f"{offset_left+w}-{offset_top+h}"
+                if square in fabric:
+                    overlapped_ids.add(id)
+                    overlapped_ids.add(fabric[square])
+                fabric[square] = id
+                fabric_ids.add(id)
+
+    return list(fabric_ids - overlapped_ids)[0]
 
 
 if __name__ == '__main__':
