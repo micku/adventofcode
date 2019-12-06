@@ -14,6 +14,7 @@ idna = "*"
 requests = "*"
 tomd = "*"
 urllib3 = "*"
+yaspin = "*"
 
 [requires]
 python_version = "3.8"

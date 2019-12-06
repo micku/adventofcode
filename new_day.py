@@ -11,6 +11,7 @@ import requests
 import tomd
 
 from bs4 import BeautifulSoup
+from yaspin import yaspin
 
 parser = argparse.ArgumentParser(description='Creates a new AoC folder.')
 parser.add_argument('url', type=str, help='The URL of the problem')
@@ -50,10 +51,10 @@ soup = BeautifulSoup(html, 'html.parser')
 with open(readme_file_path, "w") as readme:
     for i, day in enumerate(soup.find_all('article', class_='day-desc')):
         part = i+1
-        print("Part {}:".format(part))
 
-        readme.write(tomd.Tomd(str(day)).markdown)
-        print(" Problem text added")
+        with yaspin(text=f"Adding problem text for part {part}") as spinner:
+            readme.write(tomd.Tomd(str(day)).markdown)
+            spinner.ok("✔ ")
 
         next_sibling = day.next_sibling.next_sibling
         if next_sibling.name == 'p' \
@@ -63,13 +64,13 @@ with open(readme_file_path, "w") as readme:
                          "<p>{}</p></details>\n".format(next_sibling.text))
 
 # Download the problem input, if exists
-file_url = '{}/input'.format(url)
-print(file_url)
-file_response = requests.get(file_url, stream=True, cookies=cookies)
-if file_response.status_code == 200:
-    with open(input_file_path, "w") as _input:
-        _input.write(file_response.text)
-        print('Input file downloaded!')
+with yaspin(text="Downloading the input file") as spinner:
+    file_url = '{}/input'.format(url)
+    file_response = requests.get(file_url, stream=True, cookies=cookies)
+    if file_response.status_code == 200:
+        with open(input_file_path, "w") as _input:
+            _input.write(file_response.text)
+            spinner.ok("✔ ")
 
 # Clone the boilerplate
 for boilerplate_file in os.listdir(boilerplate_folder):
