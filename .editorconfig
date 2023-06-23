@@ -22,6 +22,14 @@ end_of_line = lf
 # editorconfig-tools is unable to ignore longs strings or urls
 max_line_length = off
 
+[*.java]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
 # Makefiles always use tabs for indentation
 [Makefile]
 indent_style = tab
