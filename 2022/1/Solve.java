@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 public class Solve {
@@ -13,23 +12,23 @@ public class Solve {
 
       String line;
       Integer elfCalories = 0;
-      TreeSet<Integer> elvesCalories = new TreeSet<Integer>();
+      TreeSet<Integer> elvesCalories = new TreeSet<Integer>((i1, i2) -> i2 - i1);
 
       while ((line = input.readLine()) != null) {
         if(line.isBlank()) {
           elvesCalories.add(elfCalories);
           elfCalories = 0;
-        } else {
-          elfCalories += Integer.parseInt(line);
+
+          continue;
         }
+
+        elfCalories += Integer.parseInt(line);
       }
 
-      Iterator<Integer> topCalories = elvesCalories.descendingIterator();
-      Integer top3sum = 0;
-
-      for (int i = 0; i < 3; i ++) {
-        top3sum += topCalories.next();
-      }
+      Integer top3sum = elvesCalories
+        .stream()
+        .limit(3)
+        .mapToInt(i -> i).sum();
       System.out.println(top3sum);
     } finally {
       if (input != null) {
